@@ -1,0 +1,27 @@
+export gmock {
+  Sources  { src/gmock-all.cc }
+  Includes { . }
+  Modules  { gtest }
+}
+
+export gmock_main {
+  Sources { src/gmock_main.cc }
+  Modules { gmock }
+}
+
+
+test test_gmock {
+  Sources { test/gmock_test.cc }
+  Modules { gmock_main }
+  Test    { gmock      }
+}
+
+#
+# For some reason this takes forever to compile
+#
+#test test_gmock_all {
+#  Sources  { test/gmock_all_test.cc }
+#  Modules  { gmock_main             }
+#  Includes { . ../googletest        }
+#  Test     { gmock                  }
+#}

@@ -1,0 +1,58 @@
+#
+# the main google test library
+#
+export gtest {
+  Sources  { src/gtest-all.cc }
+
+  # gtest-all includes all the sources, which for some reason uses src/...
+  Includes { . }
+}
+
+#
+# The google test library with a main
+#
+export gtest_main {
+  Sources { src/gtest_main.cc }
+  Modules { gtest }
+}
+
+#
+# the samples for this library compiled as unit tests
+# some of the samples shared code from sample 1
+# making this a private libray for targets in this Makefile
+library sample_common {
+  Sources { samples/sample1.cc }
+}
+
+#
+# Compile and declare as tests the first 5 samples
+#
+test test_sample1 {
+  Sources { samples/sample1.cc samples/sample1_unittest.cc }
+  Modules { gtest_main sample_common }
+  Test    { gtest_main gtest }
+}
+
+test test_sample2 {
+  Sources { samples/sample2.cc samples/sample2_unittest.cc }
+  Modules { gtest_main }
+  Test    { gtest_main gtest }
+}
+
+test test_sample3 {
+  Sources { samples/sample3_unittest.cc }
+  Modules { gtest_main }
+  Test    { gtest_main gtest }
+}
+
+test test_sample4 {
+  Sources { samples/sample4.cc samples/sample4_unittest.cc }
+  Modules { gtest_main }
+  Test    { gtest_main gtest }
+}
+
+test test_sample5 {
+  Sources { samples/sample5_unittest.cc }
+  Modules { gtest_main sample_common }
+  Test    { gtest_main gtest }
+}
